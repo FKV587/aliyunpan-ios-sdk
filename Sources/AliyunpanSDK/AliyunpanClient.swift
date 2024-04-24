@@ -151,6 +151,21 @@ public class AliyunpanClient {
             }
         }
     }
+
+    /// 自动登录刷新token
+    public func refreshToken(_ refresh_token: String) async throws -> AliyunpanToken {
+        let request = AliyunpanInternalScope.GetAccessToken.Request(
+            client_id: self.config.appId,
+            grant_type: "refresh_token",
+            code: config.scope,
+            client_secret: client_secret,
+            refresh_token: refresh_token)
+        let command = AliyunpanInternalScope.GetAccessToken.init(request)
+        var token = try await HTTPRequest(command: command)
+            .response()
+        token.expires_in += Date().timeIntervalSince1970
+        return token
+    }
 }
 
 extension AliyunpanToken {

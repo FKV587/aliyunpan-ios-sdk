@@ -37,8 +37,8 @@ class AliyunpanPKCECredentials: AliyunpanCredentialsProtocol {
                 client_id: appId,
                 grant_type: "authorization_code",
                 code: authCode,
-                client_secret: client_secret,
-                code_verifier: codeVerifier)))
+                client_secret: client_secret
+                /*code_verifier: codeVerifier*/)))
             .response()
         token.expires_in += Date().timeIntervalSince1970
         return token
