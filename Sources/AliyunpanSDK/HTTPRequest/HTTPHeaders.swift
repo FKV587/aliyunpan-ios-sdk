@@ -14,7 +14,7 @@ extension Bundle {
             "Unknown"
     }
     
-    var bundleId: String {
+    public var bundleId: String {
         infoDictionary?["CFBundleIdentifier"] as? String ?? "Unknown"
     }
     

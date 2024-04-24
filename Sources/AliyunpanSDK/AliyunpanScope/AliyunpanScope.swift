@@ -36,4 +36,4 @@ public class AliyunpanFileScope {
 
 public class AliyunpanVideoScope {}
 
-class AliyunpanInternalScope {}
+public class AliyunpanInternalScope {}

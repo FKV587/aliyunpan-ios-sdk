@@ -20,13 +20,13 @@ extension AliyunpanInternalScope {
             public let client_id: String
             /// 申请的授权范围，多个用逗号分隔（示例：user:base,file:all:read）
             public let scopes: [String]
-            public let code_challenge: String?
+            public let client_secret: String
             public let code_challenge_method: String?
 
-            public init(client_id: String, scopes: [String], code_challenge: String?, code_challenge_method: String?) {
+            public init(client_id: String, scopes: [String], client_secret: String, code_challenge_method: String? = nil) {
                 self.client_id = client_id
                 self.scopes = scopes
-                self.code_challenge = code_challenge
+                self.client_secret = client_secret
                 self.code_challenge_method = code_challenge_method
             }
         }

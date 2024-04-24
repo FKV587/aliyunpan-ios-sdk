@@ -23,7 +23,7 @@ extension FileManager {
     }
 }
 
-fileprivate extension Array where Element == AliyunpanFile.PartInfo {
+public extension Array where Element == AliyunpanFile.PartInfo {
     init(fileSize: Int64, chunkSize: Int64) {
         self = stride(from: 0, to: fileSize, by: Int64.Stride(chunkSize)).enumerated().map {
             let partSize = Swift.min(fileSize - $0.element, chunkSize)
@@ -37,9 +37,9 @@ fileprivate extension Array where Element == AliyunpanFile.PartInfo {
 
 /// 上传器
 public class AliyunpanUploader: NSObject {
-    weak var client: AliyunpanClient?
+    public weak var client: AliyunpanClient?
     /// 每 2G 分片
-    private static let chunkSize: Int64 = 2_000_000_000
+    public static let chunkSize: Int64 = 2_000_000_000
 
     /// 创建上传任务，并适当分片
     private func createUploadTask(

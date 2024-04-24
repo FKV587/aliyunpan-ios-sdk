@@ -27,13 +27,15 @@ public struct AliyunpanClientConfig {
 }
 
 public class AliyunpanClient {
-    private let config: AliyunpanClientConfig
-    
+    public let config: AliyunpanClientConfig
+    /// secret ID
+    public var client_secret: String = ""
+
     private var tokenStorageKey: String {
-        "com.aliyunpanSDK.accessToken_\(config.appId)_\(config.identifier ?? "-")"
+        "com.AliyunpanSDK.accessToken_\(config.appId)_\(config.identifier ?? "-")"
     }
     
-    @MainActor var token: AliyunpanToken? {
+    @MainActor public var token: AliyunpanToken? {
         willSet {
             if token != newValue,
                let data = try? JSONParameterEncoder().encode(newValue) {
@@ -91,6 +93,7 @@ public class AliyunpanClient {
         }
         let token = try await credentials.implement.authorize(
             appId: config.appId,
+            client_secret: client_secret,
             scope: config.scope
         )
         await MainActor.run { [weak self] in

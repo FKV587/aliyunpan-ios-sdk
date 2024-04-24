@@ -31,7 +31,7 @@ extension AliyunpanInternalScope {
             public let authCode: String?
         }
 
-        typealias Request = Void
+        public typealias Request = Void
 
         let sid: String
         public init(sid: String) {

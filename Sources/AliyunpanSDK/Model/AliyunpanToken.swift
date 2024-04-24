@@ -15,7 +15,7 @@ public struct AliyunpanToken: Codable {
     /// 单次有效，用来刷新access_token，90天有效期。刷新后，返回新的refresh_token，请保存以便下一次刷新使用
     public let refresh_token: String?
     /// access_token的过期时间，单位秒
-    public internal(set) var expires_in: TimeInterval
+    public var expires_in: TimeInterval
     
     /// 是否已过期
     public var isExpired: Bool {

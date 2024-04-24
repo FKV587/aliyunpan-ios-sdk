@@ -18,7 +18,7 @@ class AliyunpanPKCECredentials: AliyunpanCredentialsProtocol {
         codeChallenge = AliyunpanCrypto.sha256AndBase64(codeVerifier)
     }
     
-    func authorize(appId: String, scope: String) async throws -> AliyunpanToken {
+    func authorize(appId: String, client_secret: String, scope: String) async throws -> AliyunpanToken {
         let redirectUri = try await HTTPRequest(
             command:
                 AliyunpanScope.Internal.Authorize(
@@ -37,7 +37,7 @@ class AliyunpanPKCECredentials: AliyunpanCredentialsProtocol {
                     client_id: appId,
                     grant_type: "authorization_code",
                     code: authCode,
-                    code_verifier: codeVerifier)))
+                    client_secret: client_secret)))
             .response()
         token.expires_in += Date().timeIntervalSince1970
         return token

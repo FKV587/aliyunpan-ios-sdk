@@ -22,7 +22,7 @@ class AliyunpanServerCredentials: AliyunpanCredentialsProtocol {
         self.server = server
     }
 
-    func authorize(appId: String, scope: String) async throws -> AliyunpanToken {
+    func authorize(appId: String, client_secret: String, scope: String) async throws -> AliyunpanToken {
         let redirectUri = try await HTTPRequest(
             command:
                 AliyunpanScope.Internal.Authorize(

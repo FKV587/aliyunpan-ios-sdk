@@ -65,7 +65,7 @@ class AliyunpanQRCodeCredentials: AliyunpanCredentialsProtocol {
         }
     }
     
-    func authorize(appId: String, scope: String) async throws -> AliyunpanToken {
+    func authorize(appId: String, client_secret: String, scope: String) async throws -> AliyunpanToken {
         // 请求二维码
         let response = try await HTTPRequest(
             command:
@@ -73,8 +73,7 @@ class AliyunpanQRCodeCredentials: AliyunpanCredentialsProtocol {
                     .init(
                         client_id: appId,
                         scopes: Array(scope.split(separator: ",").map { String($0) }),
-                        code_challenge: codeChallenge,
-                        code_challenge_method: "S256")))
+                        client_secret: client_secret)))
             .response()
         
         // 展示二维码
@@ -95,7 +94,7 @@ class AliyunpanQRCodeCredentials: AliyunpanCredentialsProtocol {
                         client_id: appId,
                         grant_type: "authorization_code",
                         code: authCode,
-                        code_verifier: codeVerifier)))
+                        client_secret: client_secret)))
                 .response()
             token.expires_in += Date().timeIntervalSince1970
             return token
