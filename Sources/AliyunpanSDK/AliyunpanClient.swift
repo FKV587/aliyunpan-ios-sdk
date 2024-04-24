@@ -7,6 +7,10 @@
 
 import Foundation
 
+public protocol AliyunpanClientDelegate: AnyObject {
+    func aliyunpanClientRefreshToekn(from refresh_token: String) async throws -> AliyunpanToken
+}
+
 public struct AliyunpanClientConfig {
     /// 应用 ID
     public let appId: String
@@ -30,6 +34,7 @@ public class AliyunpanClient {
     public let config: AliyunpanClientConfig
     /// secret ID
     public var client_secret: String = ""
+    public weak var delegate: AliyunpanClientDelegate?
 
     private var tokenStorageKey: String {
         "com.AliyunpanSDK.accessToken_\(config.appId)_\(config.identifier ?? "-")"
@@ -110,12 +115,23 @@ public class AliyunpanClient {
     ///     `AliyunpanServerError`: 服务端错误
     ///     `AliyunpanNetworkSystemError`: 网络系统错误
     public func send<T: AliyunpanCommand>(_ command: T) async throws -> T.Response where T.Response: Decodable {
-        guard let token = await token else {
+        guard var token = await token else {
             throw AliyunpanError.AuthorizeError.accessTokenInvalid
         }
-        return try await token.send(command)
+        /// token已到期需要刷新
+        if !(command is AliyunpanInternalScope.GetAccessToken),
+           token.isExpired,
+           let refresh_token = token.refresh_token,
+           let newToken = try await delegate?.aliyunpanClientRefreshToekn(from: refresh_token) {
+            await MainActor.run { [weak self] in
+                self?.token = newToken
+            }
+            return try await newToken.send(command)
+        } else {
+            return try await token.send(command)
+        }
     }
-    
+
     /// 发送请求
     ///
     /// - throws:

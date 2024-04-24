@@ -97,7 +97,7 @@ class AliyunpanQRCodeCredentials: AliyunpanCredentialsProtocol {
                         grant_type: "authorization_code",
                         code: authCode,
                         client_secret: client_secret,
-                        code_verifier: codeChallenge)))
+                        code_verifier: codeVerifier)))
                 .response()
             token.expires_in += Date().timeIntervalSince1970
             return token
