@@ -33,11 +33,12 @@ class AliyunpanPKCECredentials: AliyunpanCredentialsProtocol {
             .redirectUri
         let authCode = try await jumper.jump(to: redirectUri)
         var token = try await HTTPRequest(command: AliyunpanScope.Internal.GetAccessToken(
-                .init(
-                    client_id: appId,
-                    grant_type: "authorization_code",
-                    code: authCode,
-                    client_secret: client_secret)))
+            .init(
+                client_id: appId,
+                grant_type: "authorization_code",
+                code: authCode,
+                client_secret: client_secret,
+                code_verifier: codeChallenge)))
             .response()
         token.expires_in += Date().timeIntervalSince1970
         return token

@@ -73,7 +73,9 @@ class AliyunpanQRCodeCredentials: AliyunpanCredentialsProtocol {
                     .init(
                         client_id: appId,
                         scopes: Array(scope.split(separator: ",").map { String($0) }),
-                        client_secret: client_secret)))
+                        client_secret: client_secret,
+                        code_challenge: codeChallenge,
+                        code_challenge_method: "S256")))
             .response()
         
         // 展示二维码
@@ -94,7 +96,8 @@ class AliyunpanQRCodeCredentials: AliyunpanCredentialsProtocol {
                         client_id: appId,
                         grant_type: "authorization_code",
                         code: authCode,
-                        client_secret: client_secret)))
+                        client_secret: client_secret,
+                        code_verifier: codeChallenge)))
                 .response()
             token.expires_in += Date().timeIntervalSince1970
             return token
