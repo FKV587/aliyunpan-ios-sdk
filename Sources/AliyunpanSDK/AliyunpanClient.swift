@@ -157,7 +157,6 @@ public class AliyunpanClient {
         let request = AliyunpanInternalScope.GetAccessToken.Request(
             client_id: self.config.appId,
             grant_type: "refresh_token",
-            code: config.scope,
             client_secret: client_secret,
             refresh_token: refresh_token)
         let command = AliyunpanInternalScope.GetAccessToken.init(request)
@@ -165,6 +164,24 @@ public class AliyunpanClient {
             .response()
         token.expires_in += Date().timeIntervalSince1970
         return token
+    }
+
+    /// 使用code第一次请求token
+    public func codeLogin(_ code: String) async throws -> AliyunpanToken {
+        let request = AliyunpanInternalScope.GetAccessToken.Request(
+            client_id: self.config.appId,
+            grant_type: "authorization_code",
+            code: code,
+            client_secret: client_secret)
+        let command = AliyunpanInternalScope.GetAccessToken.init(request)
+        var token = try await HTTPRequest(command: command)
+            .response()
+        token.expires_in += Date().timeIntervalSince1970
+        let token1 = token
+        await MainActor.run { [weak self] in
+            self?.token = token1
+        }
+        return token1
     }
 }
 
