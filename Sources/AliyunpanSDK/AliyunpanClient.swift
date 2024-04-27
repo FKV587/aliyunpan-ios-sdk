@@ -12,7 +12,7 @@ public protocol AliyunpanClientDelegate: AnyObject {
 }
 
 public struct AliyunpanClientConfig {
-    /// 应用 ID
+    /// 应用   ID
     public let appId: String
     /// 申请权限
     public let scope: String
