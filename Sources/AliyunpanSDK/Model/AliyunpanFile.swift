@@ -284,14 +284,14 @@ extension AliyunpanFile {
             public let keep_original_resolution: Bool?
             public let stage: String?
             public let status: Status
-            public let url: URL?
+            public let url: String?
         }
         
         public struct LiveTranscodingSubtitleTask: Codable {
             /// chi | eng
             public let language: String
             public let status: Status
-            public let url: URL?
+            public let url: String?
         }
         
         /// live_transcoding
