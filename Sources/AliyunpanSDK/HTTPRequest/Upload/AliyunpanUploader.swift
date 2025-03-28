@@ -37,7 +37,7 @@ public extension Array where Element == AliyunpanFile.PartInfo {
 
 /// 上传器
 public class AliyunpanUploader: NSObject {
-    weak var client: AliyunpanClient?
+    public weak var client: AliyunpanClient?
     /// 默认每 2G 分片，最大1000片
     public static let defaultMaxChunkCount: Int64 = 1000
     public static let defaultChunkSize: Int64 = 2_000_000_000

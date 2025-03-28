@@ -22,6 +22,7 @@ public struct AliyunpanFile: Codable {
     public let type: FileType?
     /// 缩略图
     public let thumbnail: URL?
+    public let mime_type: String?
     /// 图片预览图地址、小于 5MB 文件的下载地址。超过5MB 请使用 /getDownloadUrl
     public let url: URL?
     public let created_at: Date?
