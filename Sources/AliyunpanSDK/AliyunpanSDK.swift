@@ -48,8 +48,8 @@ public class Aliyunpan {
     
     @discardableResult
     public static func handleOpenURL(_ url: URL) -> Bool {
-        AliyunpanAppJumper.handle(url: url)
+        AliyunpanAuthenticator.handle(url: url)
     }
 }
 
-let version = "0.2.1"
+let version = "0.3.5"

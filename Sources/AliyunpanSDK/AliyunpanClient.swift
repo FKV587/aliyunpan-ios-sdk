@@ -101,8 +101,8 @@ public class AliyunpanClient {
             client_secret: client_secret,
             scope: config.scope
         )
-        await MainActor.run { [weak self] in
-            self?.token = token
+        await MainActor.run {
+            self.token = token
         }
         return token
     }

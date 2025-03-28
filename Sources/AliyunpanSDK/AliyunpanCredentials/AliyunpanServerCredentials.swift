@@ -14,8 +14,6 @@ public protocol AliyunpanBizServer {
 }
 
 class AliyunpanServerCredentials: AliyunpanCredentialsProtocol {
-    private let jumper = AliyunpanAppJumper()
-    
     private let server: AliyunpanBizServer
     
     init(_ server: AliyunpanBizServer) {
@@ -33,7 +31,10 @@ class AliyunpanServerCredentials: AliyunpanCredentialsProtocol {
                         response_type: "code")))
             .response()
             .redirectUri
-        let authCode = try await jumper.jump(to: redirectUri)
+        
+        let authenticator = AliyunpanAuthenticator()
+        let authCode = try await authenticator.authorize(redirectUri)
+        
         var token = try await server.requestToken(appId: appId, authCode: authCode)
         token.expires_in += Date().timeIntervalSince1970
         return token

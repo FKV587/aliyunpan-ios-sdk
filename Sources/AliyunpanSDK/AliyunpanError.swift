@@ -20,6 +20,10 @@ public struct AliyunpanError {
         case qrCodeAuthorizeTimeout
         /// 未授权或授权已过期
         case accessTokenInvalid
+        /// 授权 code 错误
+        case invalidCode
+        /// 当前平台不支持
+        case invalidPlatform
     }
 
     /// 网络层错误
@@ -84,6 +88,10 @@ public struct AliyunpanError {
         case userCancelled
         /// 缺少 client
         case invalidClient
+        /// 服务器错误
+        case serverError
+        /// 未知错误
+        case unknownError
     }
     
     /// 上传错误
